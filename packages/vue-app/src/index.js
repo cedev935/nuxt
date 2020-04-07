@@ -9,10 +9,10 @@ export const template = {
     'app.vue',
     'entry.client.js',
     'entry.server.js',
-    'main.js',
     'nuxt.js',
     'plugins/index.js',
     'plugins/ssr.js',
+    'utils.js',
     'views/app.template.html'
   ]
 }

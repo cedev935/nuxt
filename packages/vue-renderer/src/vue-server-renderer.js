@@ -35,18 +35,15 @@ class VueBundleRenderer {
     const html = await renderToString(app, ssrContext)
 
     ssrContext.renderResourceHints = () => {
-      console.log('vue ssr bundle renderer stuff for resource hints')
-      return ''
+      return '<!-- resource hints -->'
     }
 
     ssrContext.renderStyles = () => {
-      console.log('vue ssr bundle renderer stuff for styles')
-      return ''
+      return '<!-- styles -->'
     }
 
     ssrContext.renderScripts = () => {
-      console.log('vue ssr bundle renderer stuff for scripts')
-      return ''
+      return '<!-- scripts -->'
     }
 
     return html

@@ -1,6 +1,6 @@
 import Hookable from 'hable'
 
-export default class NuxtContext extends Hookable {
+export default class NuxtApp extends Hookable {
   constructor({ app }) {
     super()
     this.app = app

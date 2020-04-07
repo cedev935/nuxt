@@ -1,7 +1,12 @@
-import createNuxtApp from './main'
+import { createApp } from 'vue'
+import App from './app' // Todo: replace when ~/app.vue exists
+import NuxtApp from './nuxt'
+import { wrapApp } from './utils'
+
 
 export default async function createNuxtAppServer(ssrContext = {}) {
-	const $nuxt = await createNuxtApp()
+	const app = createApp(wrapApp(App))
+	const $nuxt = new NuxtApp({ app })
 
 	ssrContext.nuxt = {
 		serverRendered: true,
@@ -16,8 +21,10 @@ export default async function createNuxtAppServer(ssrContext = {}) {
 	if (ssrContext.req) $nuxt.provide('req', ssrContext.req)
 	if (ssrContext.res) $nuxt.provide('res', ssrContext.res)
 
-	// ~> hook
+	// await $nuxt.loadPlugins()
+
+	// call hooks
 	// redirect, errors...
 
-	return $nuxt.app
+	return app
 }
