@@ -182,7 +182,7 @@ export default class WebpackClientConfig extends WebpackBaseConfig {
 
     // Entry points
     config.entry = Object.assign({}, config.entry, {
-      app: [path.resolve(buildDir, 'client.js')]
+      app: [path.resolve(buildDir, 'entry.client.js')]
     })
 
     // Add HMR support

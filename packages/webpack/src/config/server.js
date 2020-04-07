@@ -2,6 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import { DefinePlugin, ProvidePlugin } from 'webpack'
 import nodeExternals from 'webpack-node-externals'
+import FriendlyErrorsWebpackPlugin from '@nuxt/friendly-errors-webpack-plugin'
 
 import VueSSRServerPlugin from '../plugins/vue/server'
 
@@ -92,7 +93,7 @@ export default class WebpackServerConfig extends WebpackBaseConfig {
       target: 'node',
       node: false,
       entry: Object.assign({}, config.entry, {
-        app: [path.resolve(this.buildContext.options.buildDir, 'server.js')]
+        app: [path.resolve(this.buildContext.options.buildDir, 'entry.server.js')]
       }),
       output: Object.assign({}, config.output, {
         filename: 'server.js',
@@ -120,6 +121,17 @@ export default class WebpackServerConfig extends WebpackBaseConfig {
           )
         }
       })
+    }
+
+    // Add friendly error plugin
+    if (this.dev) {
+      config.plugins.push(
+        new FriendlyErrorsWebpackPlugin({
+          clearConsole: false,
+          reporter: 'consola',
+          logLevel: 'WARNING'
+        })
+      )
     }
 
     return config

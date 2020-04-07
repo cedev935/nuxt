@@ -4,23 +4,15 @@ import { dependencies } from '../package.json'
 export const template = {
   dependencies,
   dir: path.join(__dirname, '..', 'template'),
+  // TODO: Use globby
   files: [
-    'App.js',
-    'client.js',
-    'index.js',
-    'router.js',
-    'router.scrollBehavior.js',
-    'server.js',
-    'utils.js',
-    'empty.js',
-    'mixins/fetch.server.js',
-    'mixins/fetch.client.js',
-    'components/nuxt-error.vue',
-    'components/nuxt-child.js',
-    'components/nuxt-link.server.js',
-    'components/nuxt-link.client.js',
-    'components/nuxt.js',
-    'views/app.template.html',
-    'views/error.html'
+    'app.vue',
+    'entry.client.js',
+    'entry.server.js',
+    'main.js',
+    'nuxt.js',
+    'plugins/index.js',
+    'plugins/ssr.js',
+    'views/app.template.html'
   ]
 }

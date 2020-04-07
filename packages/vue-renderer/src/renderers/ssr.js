@@ -4,10 +4,15 @@ import { format } from 'util'
 import fs from 'fs-extra'
 import consola from 'consola'
 import devalue from '@nuxt/devalue'
-import { createBundleRenderer } from 'vue-server-renderer'
+import { createBundleRenderer } from '../vue-server-renderer'
 import BaseRenderer from './base'
 
 export default class SSRRenderer extends BaseRenderer {
+  constructor (serverContext) {
+    super(serverContext)
+    this.vueRenderer = createBundleRenderer(serverContext.resources, {})
+  }
+
   get rendererOptions () {
     const hasModules = fs.existsSync(path.resolve(this.options.rootDir, 'node_modules'))
 

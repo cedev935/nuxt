@@ -301,11 +301,11 @@ export default class Builder {
 
   addOptionalTemplates (templateContext) {
     if (this.options.build.indicator) {
-      templateContext.templateFiles.push('components/nuxt-build-indicator.vue')
+      // templateContext.templateFiles.push('components/nuxt-build-indicator.vue')
     }
 
     if (this.options.loading !== false) {
-      templateContext.templateFiles.push('components/nuxt-loading.vue')
+      // templateContext.templateFiles.push('components/nuxt-loading.vue')
     }
   }
 
@@ -452,7 +452,7 @@ export default class Builder {
       return { name, src, dst }
     })
 
-    templateFiles.push('middleware.js')
+    // templateFiles.push('middleware.js')
   }
 
   async resolveCustomTemplates (templateContext) {
