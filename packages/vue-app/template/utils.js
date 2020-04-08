@@ -4,7 +4,7 @@ export function wrapApp(App) {
 	return {
 		render() {
       return h('div', {
-        id: '__nuxt'
+        id: '<%= globals.id %>'
       }, [h(App)])
 		}
 	}
