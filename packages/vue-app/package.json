@@ -12,15 +12,17 @@
     "index.d.ts"
   ],
   "dependencies": {
+    "globby": "^11.0.0",
+    "globy": "^0.1.8",
     "node-fetch": "^2.6.0",
+    "ssr-window": "^1.0.1",
     "unfetch": "^4.1.0",
-    "vue": "^3.0.0-alpha.11",
+    "vue": "^3.0.0-beta.3",
     "vue-client-only": "^2.0.0",
     "vue-meta": "^2.3.3",
-    "vue-no-ssr": "^1.1.1",
-    "vue-router": "^4.0.0-alpha.4",
-    "vuex": "^4.0.0-alpha.1",
-    "vue-template-compiler": "^2.6.11"
+    "vue-router": "^4.0.0-alpha.7",
+    "vue-template-compiler": "^2.6.11",
+    "vuex": "^4.0.0-alpha.1"
   },
   "publishConfig": {
     "access": "public"

@@ -2,8 +2,25 @@
 <html {{ HTML_ATTRS }}>
   <head {{ HEAD_ATTRS }}>
     {{ HEAD }}
+    <style very-scoped>
+      body, html {
+        background: pink;
+        margin: 0;
+        padding: 40px;
+      }
+
+      .fade-enter-from,
+      .fade-leave-to {
+        opacity: 0
+      }
+
+      .fade-enter-active,
+      .fade-leave-active {
+        transition: opacity 0.2s ease-in-out;
+      }
+    </style>
   </head>
   <body {{ BODY_ATTRS }}>
-    {{ APP }}
+    <div id="__nuxt">{{ APP }}</div>
   </body>
 </html>

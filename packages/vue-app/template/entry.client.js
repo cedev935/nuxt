@@ -1,17 +1,19 @@
 import { createSSRApp } from 'vue'
-import NuxtApp from './nuxt'
-import { wrapApp } from './utils'
 import App from './app' // Todo: replace when ~/app.vue exists
+import nuxt from './plugins/nuxt'
+
 
 async function initApp() {
   const app = createSSRApp(App)
-  const $nuxt = new NuxtApp({ app })
+  app.use(nuxt)
 
-  const state = window.__NUXT__ || {}
-  $nuxt.provide('ssrState', state)
+  await app.$nuxt.callHook('client:create')
 
-  $nuxt.app.mount('#__nuxt')
-  console.log('app ready', app)
+  app.mount('#__nuxt')
+
+  await app.$nuxt.callHook('client:mounted')
+
+  console.log('App ready:', app)
 }
 
 initApp().catch(error => {

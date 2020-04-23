@@ -1,11 +1,3 @@
-import { h } from 'vue'
-
-export function wrapApp(App) {
-	return {
-		render() {
-      return h('div', {
-        id: '<%= globals.id %>'
-      }, [h(App)])
-		}
-	}
+export function defineGetter(obj, key, val) {
+  Object.defineProperty(obj, key, { get: () => val })
 }

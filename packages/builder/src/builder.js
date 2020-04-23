@@ -525,11 +525,12 @@ export default class Builder {
     }
 
     if (!indicatorPath) {
-      consola.error(
-        `Could not fetch loading indicator: ${
-          this.options.loadingIndicator.name
-        }`
-      )
+      // TODO
+      // consola.error(
+      //   `Could not fetch loading indicator: ${
+      //     this.options.loadingIndicator.name
+      //   }`
+      // )
       return
     }
 

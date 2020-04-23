@@ -21,6 +21,8 @@ class VueBundleRenderer {
       __dirname: '/',
       require,
       process,
+      setTimeout,
+      setInterval,
       module: {}
     })
 

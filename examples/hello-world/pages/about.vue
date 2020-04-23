@@ -1,19 +1,26 @@
 <template>
   <div>
-    <p>Hi from {{ name }}</p>
-    <NLink to="/">
+    <p>About</p>
+    <NuxtLink to="/">
       Home page
-    </NLink>
+    </NuxtLink>
   </div>
 </template>
 
 <script>
 export default {
-  asyncData () {
+  data () {
     return {
       name: process.static ? 'static' : (process.server ? 'server' : 'client')
     }
   },
+
+  async setup () {
+    await new Promise(resolve => setTimeout(resolve, process.server ? 100 : 1000))
+
+    return {}
+  },
+
   head: {
     title: 'About page'
   }
