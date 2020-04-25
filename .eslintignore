@@ -12,5 +12,4 @@ examples/pug-stylus-coffee/
 # Packages
 
 # vue-app
-packages/vue-app/template
-!packages/vue-app/template/store.js
+packages/vue-app/template/gen

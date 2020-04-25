@@ -1,7 +1,7 @@
 <template>
-	<div>
-		Test home vue router
-	</div>
+  <div>
+    Test home vue router
+  </div>
 </template>
 
 <script>

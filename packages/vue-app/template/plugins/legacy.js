@@ -1,4 +1,4 @@
-export default function install(app) {
+export default function install (app) {
   app.$nuxt.context = {}
 
   if (process.client) {

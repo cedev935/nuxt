@@ -1,29 +1,29 @@
 import Hookable from 'hable'
 
+import { defineGetter } from '../utils'
 import router from './router'
 import state from './state'
 import components from './components'
 import legacy from './legacy'
-import { defineGetter } from '../utils'
 
 class Nuxt extends Hookable {
-  constructor({ app, ssrContext, globalName }) {
+  constructor ({ app, ssrContext, globalName }) {
     super()
     this.app = app
     this.ssrContext = ssrContext
     this.globalName = globalName
-    this.provide('nuxt', this)
   }
 
-  provide(name, value) {
+  provide (name, value) {
     const $name = '$' + name
     defineGetter(this.app, $name, value)
     defineGetter(this.app.config.globalProperties, $name, value)
   }
 }
 
-function install(app, { ssrContext, globalName = 'nuxt' } = {}) {
+function install (app, { ssrContext, globalName = 'nuxt' } = {}) {
   const nuxt = new Nuxt({ app, ssrContext, globalName })
+  nuxt.provide('nuxt', nuxt)
 
   // app.use(offline) // TODO
   app.use(state)

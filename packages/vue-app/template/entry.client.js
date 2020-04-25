@@ -2,8 +2,7 @@ import { createSSRApp } from 'vue'
 import App from './app' // Todo: replace when ~/app.vue exists
 import nuxt from './plugins/nuxt'
 
-
-async function initApp() {
+async function initApp () {
   const app = createSSRApp(App)
   app.use(nuxt)
 
@@ -13,9 +12,9 @@ async function initApp() {
 
   await app.$nuxt.callHook('client:mounted')
 
-  console.log('App ready:', app)
+  console.log('App ready:', app) // eslint-disable-line no-console
 }
 
-initApp().catch(error => {
-  console.error('Error while mounting app:', error)
+initApp().catch((error) => {
+  console.error('Error while mounting app:', error) // eslint-disable-line no-console
 })
