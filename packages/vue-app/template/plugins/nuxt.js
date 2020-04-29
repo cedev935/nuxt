@@ -5,6 +5,7 @@ import router from './router'
 import state from './state'
 import components from './components'
 import legacy from './legacy'
+import preload from './preload'
 
 class Nuxt extends Hookable {
   constructor ({ app, ssrContext, globalName }) {
@@ -30,6 +31,10 @@ function install (app, { ssrContext, globalName = 'nuxt' } = {}) {
   app.use(router)
   app.use(components)
   app.use(legacy)
+
+  if (process.server) {
+    app.use(preload)
+  }
 }
 
 export default {
