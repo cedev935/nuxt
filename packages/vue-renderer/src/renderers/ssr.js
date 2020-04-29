@@ -4,19 +4,20 @@ import { format } from 'util'
 import fs from 'fs-extra'
 import consola from 'consola'
 import devalue from '@nuxt/devalue'
-import { createBundleRenderer } from '../vue-server-renderer'
+import { createBundleRenderer } from 'vue-bundle-renderer'
 import BaseRenderer from './base'
 
 export default class SSRRenderer extends BaseRenderer {
   constructor (serverContext) {
     super(serverContext)
-    this.vueRenderer = createBundleRenderer(serverContext.resources, {})
+    this.createRenderer()
   }
 
   get rendererOptions () {
     const hasModules = fs.existsSync(path.resolve(this.options.rootDir, 'node_modules'))
 
     return {
+      vueServerRenderer: require('@vue/server-renderer'),
       clientManifest: this.serverContext.resources.clientManifest,
       // for globally installed nuxt command, search dependencies in global dir
       basedir: hasModules ? this.options.rootDir : __dirname,
@@ -54,7 +55,7 @@ export default class SSRRenderer extends BaseRenderer {
 
   createRenderer () {
     // Create bundle renderer for SSR
-    return createBundleRenderer(
+    this.vueRenderer = createBundleRenderer(
       this.serverContext.resources.serverManifest,
       this.rendererOptions
     )

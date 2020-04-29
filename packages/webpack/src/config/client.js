@@ -104,8 +104,7 @@ export default class WebpackClientConfig extends WebpackBaseConfig {
           filename: '../server/index.ssr.html',
           template: appTemplatePath,
           minify: buildOptions.html.minify,
-          // inject: false // Resources will be injected using bundleRenderer
-          inject: true
+          inject: false // Resources will be injected using bundleRenderer
         })
       )
     }
