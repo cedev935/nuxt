@@ -1,37 +1,40 @@
 <template>
   <div class="app">
-    <h1>💓 Hello Nuxt 3 💓</h1>
-    <button @click="increment">
-      {{ count }}
-    </button>
+    <h1>Hello Vue + Nuxt 3!</h1>
     <Suspense>
       <template #default>
         <RouterView />
       </template>
       <template #fallback>
         Loading...
-        <component :is="previousRoute.matched[0].components.default" v-if="previousRoute && previousRoute.matched.length" />
+        <component
+          :is="previousRoute.matched[0].components.default"
+          v-if="previousRoute && previousRoute.matched.length"
+        />
       </template>
     </Suspense>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
-
-export default {
-  setup () {
-    const count = ref(0)
-
-    function increment () {
-      count.value++
-    }
-
-    return { count, increment }
-  },
-
-  errorCaptured (error) {
-    console.error('Render error:', error) // eslint-disable-line no-console
-  }
-}
+export default {}
 </script>
+
+<style>
+body,
+html {
+  background: pink;
+  margin: 0;
+  padding: 40px;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease-in-out;
+}
+</style>

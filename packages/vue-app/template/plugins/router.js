@@ -1,16 +1,16 @@
 import { ref } from 'vue'
 import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 
-import Home from '~/pages/index'
-import About from '~/pages/about'
-import Custom from '~/pages/custom'
+const Home = () => import('~/pages/index' /* webpackChunkName: "Home" */)
+const About = () => import('~/pages/about' /* webpackChunkName: "About" */)
+const Custom = () => import('~/pages/custom' /* webpackChunkName: "Custom" */)
 
-export function install(app) {
+export function install (app) {
   const routerHistory = process.client
     ? createWebHistory()
     : createMemoryHistory()
 
-	const router = createRouter({
+  const router = createRouter({
     history: routerHistory,
     routes: []
   })
@@ -20,8 +20,7 @@ export function install(app) {
 
   app.use(router)
 
-  // Do we need this for now?
-  let previousRoute = ref()
+  const previousRoute = ref()
   router.afterEach((to, from) => {
     previousRoute.value = from
   })
