@@ -9,12 +9,13 @@
   ],
   "dependencies": {
     "@nuxt/devalue": "^1.2.4",
-    "@vue/server-renderer": "^3.0.0-alpha.11",
     "@nuxt/utils": "2.12.1",
+    "@vue/server-renderer": "^3.0.0-alpha.11",
     "consola": "^2.11.3",
     "fs-extra": "^9.0.0",
     "lru-cache": "^5.1.1",
     "vue": "^3.0.0-alpha.11",
+    "vue-bundle-renderer": "^0.0.3",
     "vue-meta": "^2.3.3"
   },
   "publishConfig": {
