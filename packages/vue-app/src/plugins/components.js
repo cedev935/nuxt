@@ -5,11 +5,7 @@ import { Link } from 'vue-router'
 //   extends: Link
 // })
 
-function install (app) {
+export default function components ({ app }) {
   app.component('NuxtLink', Link)
   app.component('NLink', Link) // TODO: deprecate
-}
-
-export default {
-  install
 }

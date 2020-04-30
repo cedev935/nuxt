@@ -1,4 +1,4 @@
-export function install (app) {
+export default function state ({ app }) {
   if (process.server) {
     app.$nuxt.state = {
       serverRendered: true
@@ -10,8 +10,4 @@ export function install (app) {
   if (process.client) {
     app.$nuxt.state = window.__NUXT__ || {}
   }
-}
-
-export default {
-  install
 }

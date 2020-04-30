@@ -1,10 +1,15 @@
 import { createSSRApp } from 'vue'
-import App from './app' // Todo: replace when ~/app.vue exists
-import nuxt from './plugins/nuxt'
+import { init } from '~nuxt'
+import App from '<%= appPath %>'
+import plugins from './plugins.client'
 
 async function initApp () {
   const app = createSSRApp(App)
-  app.use(nuxt)
+
+  await init({
+    app,
+    plugins
+  })
 
   await app.$nuxt.callHook('client:create')
 

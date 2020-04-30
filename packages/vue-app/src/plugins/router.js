@@ -1,23 +1,17 @@
 import { ref } from 'vue'
 import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 
-const Home = () => import('~/pages/index' /* webpackChunkName: "Home" */)
-const About = () => import('~/pages/about' /* webpackChunkName: "About" */)
-const Custom = () => import('~/pages/custom' /* webpackChunkName: "Custom" */)
+import routes from '.nuxt/routes'
 
-export function install (app) {
+export default function router ({ app }) {
   const routerHistory = process.client
     ? createWebHistory()
     : createMemoryHistory()
 
   const router = createRouter({
     history: routerHistory,
-    routes: []
+    routes
   })
-  router.addRoute({ path: '/:thing', component: Custom })
-  router.addRoute({ path: '/', component: Home })
-  router.addRoute({ path: '/about', component: About })
-
   app.use(router)
 
   const previousRoute = ref()
@@ -40,8 +34,4 @@ export function install (app) {
       await router.isReady()
     })
   }
-}
-
-export default {
-  install
 }

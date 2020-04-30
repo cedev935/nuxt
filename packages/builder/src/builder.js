@@ -85,6 +85,14 @@ export default class Builder {
       rootDir: this.options.srcDir,
       ignoreArray: this.options.ignore
     })
+
+    // Add support for App.{ext} (or app.{ext})
+    this.appFiles = []
+    for (const ext of this.supportedExtensions) {
+      for (const name of ['app', 'App']) {
+        this.appFiles.push(path.join(this.options.srcDir, `${name}.${ext}`))
+      }
+    }
   }
 
   getBundleBuilder (BundleBuilder) {
@@ -130,7 +138,7 @@ export default class Builder {
     // Call before hook
     await this.nuxt.callHook('build:before', this, this.options.build)
 
-    await this.validatePages()
+    // await this.validatePages()
 
     // Validate template
     try {
@@ -178,26 +186,26 @@ export default class Builder {
   }
 
   // Check if pages dir exists and warn if not
-  async validatePages () {
-    this._nuxtPages = typeof this.options.build.createRoutes !== 'function'
+  // async validatePages () {
+  //   this._nuxtPages = typeof this.options.build.createRoutes !== 'function'
 
-    if (
-      !this._nuxtPages ||
-      await fsExtra.exists(path.join(this.options.srcDir, this.options.dir.pages))
-    ) {
-      return
-    }
+  //   if (
+  //     !this._nuxtPages ||
+  //     await fsExtra.exists(path.join(this.options.srcDir, this.options.dir.pages))
+  //   ) {
+  //     return
+  //   }
 
-    const dir = this.options.srcDir
-    if (await fsExtra.exists(path.join(this.options.srcDir, '..', this.options.dir.pages))) {
-      throw new Error(
-        `No \`${this.options.dir.pages}\` directory found in ${dir}. Did you mean to run \`nuxt\` in the parent (\`../\`) directory?`
-      )
-    }
+  //   const dir = this.options.srcDir
+  //   if (await fsExtra.exists(path.join(this.options.srcDir, '..', this.options.dir.pages))) {
+  //     throw new Error(
+  //       `No \`${this.options.dir.pages}\` directory found in ${dir}. Did you mean to run \`nuxt\` in the parent (\`../\`) directory?`
+  //     )
+  //   }
 
-    this._defaultPage = true
-    consola.warn(`No \`${this.options.dir.pages}\` directory found in ${dir}. Using the default built-in page.`)
-  }
+  //   this._defaultPage = true
+  //   consola.warn(`No \`${this.options.dir.pages}\` directory found in ${dir}. Using the default built-in page.`)
+  // }
 
   validateTemplate () {
     // Validate template dependencies
@@ -233,12 +241,16 @@ export default class Builder {
 
     const templateContext = this.createTemplateContext()
 
+    await this.resolvePages(templateContext)
+    await this.resolveApp(templateContext)
+
     await Promise.all([
       this.resolveLayouts(templateContext),
-      this.resolveRoutes(templateContext),
       this.resolveStore(templateContext),
       this.resolveMiddleware(templateContext)
     ])
+
+    await this.resolvePlugins(templateContext)
 
     this.addOptionalTemplates(templateContext)
 
@@ -322,6 +334,20 @@ export default class Builder {
     return (await this.resolveFiles(dir)).map(file => ({ src: file.replace(dirPrefix, '') }))
   }
 
+  async resolveApp ({ templateVars }) {
+    templateVars.appPath = '~nuxt/app.vue'
+
+    for (const appFile of this.appFiles) {
+      if (await fsExtra.exists(appFile)) {
+        templateVars.appPath = appFile
+        templateVars.hasApp = true
+        return
+      }
+    }
+
+    templateVars.hasApp = false
+  }
+
   async resolveLayouts ({ templateVars, templateFiles }) {
     if (!this.options.features.layouts) {
       return
@@ -360,41 +386,44 @@ export default class Builder {
     }
   }
 
-  async resolveRoutes ({ templateVars }) {
-    consola.debug('Generating routes...')
+  async resolvePages (templateContext) {
+    const { templateVars } = templateContext
+
+    const pagesDir = path.join(this.options.srcDir, this.options.dir.pages)
+    this._nuxtPages = templateContext.hasPages = await fsExtra.exists(pagesDir)
+
+    if (!templateContext.hasPages) {
+      return
+    }
+
     const { routeNameSplitter, trailingSlash } = this.options.router
 
-    if (this._defaultPage) {
-      templateVars.router.routes = createRoutes({
-        files: ['index.vue'],
-        srcDir: this.template.dir + '/pages',
-        routeNameSplitter,
-        trailingSlash
-      })
-    } else if (this._nuxtPages) {
-      // Use nuxt.js createRoutes bases on pages/
-      const files = {}
-      const ext = new RegExp(`\\.(${this.supportedExtensions.join('|')})$`)
-      for (const page of await this.resolveFiles(this.options.dir.pages)) {
-        const key = page.replace(ext, '')
-        // .vue file takes precedence over other extensions
-        if (/\.vue$/.test(page) || !files[key]) {
-          files[key] = page.replace(/(['"])/g, '\\$1')
-        }
+    // Use nuxt.js createRoutes bases on pages/
+    const files = {}
+    const ext = new RegExp(`\\.(${this.supportedExtensions.join('|')})$`)
+    for (const page of await this.resolveFiles(this.options.dir.pages)) {
+      const key = page.replace(ext, '')
+      // .vue file takes precedence over other extensions
+      if (/\.vue$/.test(page) || !files[key]) {
+        files[key] = page.replace(/(['"])/g, '\\$1')
       }
-      templateVars.router.routes = createRoutes({
-        files: Object.values(files),
-        srcDir: this.options.srcDir,
-        pagesDir: this.options.dir.pages,
-        routeNameSplitter,
-        supportedExtensions: this.supportedExtensions,
-        trailingSlash
-      })
-    } else { // If user defined a custom method to create routes
-      templateVars.router.routes = await this.options.build.createRoutes(
-        this.options.srcDir
-      )
     }
+
+    templateVars.router.routes = createRoutes({
+      files: Object.values(files),
+      srcDir: this.options.srcDir,
+      pagesDir: this.options.dir.pages,
+      routeNameSplitter,
+      supportedExtensions: this.supportedExtensions,
+      trailingSlash
+    })
+
+    // TODO: Support custom createRoutes
+    // else { // If user defined a custom method to create routes
+    //   templateVars.router.routes = await this.options.build.createRoutes(
+    //     this.options.srcDir
+    //   )
+    // }
 
     await this.nuxt.callHook(
       'build:extendRoutes',
@@ -662,7 +691,8 @@ export default class Builder {
   watchClient () {
     let patterns = [
       r(this.options.srcDir, this.options.dir.layouts),
-      r(this.options.srcDir, this.options.dir.middleware)
+      r(this.options.srcDir, this.options.dir.middleware),
+      ...this.appFiles
     ]
 
     if (this.options.store) {

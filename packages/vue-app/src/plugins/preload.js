@@ -1,4 +1,4 @@
-export function install (app) {
+export default function preload ({ app }) {
   app.mixin({
     beforeCreate () {
       const { _registeredComponents } = this.$nuxt.ssrContext
@@ -6,8 +6,4 @@ export function install (app) {
       _registeredComponents.push(__moduleIdentifier)
     }
   })
-}
-
-export default {
-  install
 }

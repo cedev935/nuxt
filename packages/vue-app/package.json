@@ -3,17 +3,19 @@
   "version": "2.12.1",
   "repository": "nuxt/nuxt.js",
   "license": "MIT",
-  "main": "dist/vue-app.js",
+  "main": "./index.js",
   "typings": "index.d.ts",
   "files": [
-    "dist",
-    "template",
+    ".nuxt",
+    "src",
     "vetur",
-    "index.d.ts"
+    "index.d.ts",
+    "index.js"
   ],
   "dependencies": {
     "globby": "^11.0.0",
     "globy": "^0.1.8",
+    "hookable": "^4.1.1",
     "node-fetch": "^2.6.0",
     "ssr-window": "^1.0.1",
     "unfetch": "^4.1.0",
