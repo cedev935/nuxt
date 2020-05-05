@@ -335,7 +335,7 @@ export default class Builder {
   }
 
   async resolveApp ({ templateVars }) {
-    templateVars.appPath = '~nuxt/app.vue'
+    templateVars.appPath = '~nuxt/app.tutorial.vue'
 
     for (const appFile of this.appFiles) {
       if (await fsExtra.exists(appFile)) {
