@@ -3,11 +3,9 @@
     "@nuxtjs"
   ],
   "baseBranches": [
-    "dev",
-    "next"
+    "dev"
   ],
   "ignoreDeps": [
-    "@babel/parser"
   ],
   "lockFileMaintenance": {
     "enabled": true
