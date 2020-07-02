@@ -1,7 +1,6 @@
 import path from 'path'
 import fs from 'fs'
 import { DefinePlugin, ProvidePlugin } from 'webpack'
-import nodeExternals from 'webpack-node-externals'
 import FriendlyErrorsWebpackPlugin from '@nuxt/friendly-errors-webpack-plugin'
 
 // TODO: remove when webpack-node-externals support webpack5
