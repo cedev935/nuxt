@@ -147,7 +147,7 @@ module.exports = (api, options = {}) => {
 
   // JSX
   if (options.jsx !== false) {
-    presets.push([require('@vue/babel-preset-jsx'), Object.assign({}, options.jsx)])
+    // presets.push([require('@vue/babel-preset-jsx'), Object.assign({}, options.jsx)])
   }
 
   plugins.push(

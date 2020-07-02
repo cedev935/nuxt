@@ -2,12 +2,6 @@ export default class BaseRenderer {
   constructor (serverContext) {
     this.serverContext = serverContext
     this.options = serverContext.options
-
-    this.vueRenderer = this.createRenderer()
-  }
-
-  createRenderer () {
-    throw new Error('`createRenderer()` needs to be implemented')
   }
 
   renderTemplate (templateFn, opts) {

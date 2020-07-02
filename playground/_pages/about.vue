@@ -16,8 +16,7 @@ export default {
   },
 
   async setup () {
-    await new Promise(resolve => setTimeout(resolve, process.server ? 100 : 1000))
-
+    await new Promise(resolve => setTimeout(resolve, process.server ? 100 : 500))
     return {}
   },
 
@@ -26,3 +25,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  div {
+    color: 'red'
+  }
+</style>

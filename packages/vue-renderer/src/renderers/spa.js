@@ -1,7 +1,6 @@
 import { extname } from 'path'
 import cloneDeep from 'lodash/cloneDeep'
 import VueMeta from 'vue-meta'
-import { createRenderer } from 'vue-server-renderer'
 import LRU from 'lru-cache'
 import devalue from '@nuxt/devalue'
 import { TARGETS, isModernRequest } from '@nuxt/utils'
@@ -21,10 +20,6 @@ export default class SPARenderer extends BaseRenderer {
       ssrAttribute: 'data-n-head-ssr',
       tagIDKeyName: 'hid'
     }
-  }
-
-  createRenderer () {
-    return createRenderer()
   }
 
   async render (renderContext) {
