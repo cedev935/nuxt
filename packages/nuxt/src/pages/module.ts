@@ -6,7 +6,7 @@ import escapeRE from 'escape-string-regexp'
 import { joinURL } from 'ufo'
 import type { NuxtApp, NuxtPage } from 'nuxt/schema'
 
-import type { NitroDynamicConfig, NitroRouteConfig } from 'nitropack'
+import type { NitroRouteConfig } from 'nitropack'
 import { defu } from 'defu'
 import { distDir } from '../dirs'
 import { normalizeRoutes, pathToNitroGlob, resolvePagesRoutes } from './utils'
