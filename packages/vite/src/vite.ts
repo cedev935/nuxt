@@ -98,7 +98,7 @@ export async function bundle (nuxt: Nuxt) {
             }
           },
           watch: {
-            exclude: nuxt.options.ignore
+            // exclude: nuxt.options.ignore
           }
         },
         plugins: [

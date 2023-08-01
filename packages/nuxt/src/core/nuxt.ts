@@ -217,6 +217,13 @@ async function initNuxt (nuxt: Nuxt) {
     filePath: resolve(nuxt.options.appDir, 'components/client-only')
   })
 
+  // Add <ServerOnly>
+  addComponent({
+    name: 'ServerOnly',
+    priority: 10, // built-in that we do not expect the user to override
+    filePath: resolve(nuxt.options.appDir, 'components/server-only')
+  })
+
   // Add <DevOnly>
   addComponent({
     name: 'DevOnly',
@@ -419,7 +426,7 @@ export async function loadNuxt (opts: LoadNuxtOptions): Promise<Nuxt> {
   }
 
   // Add core modules
-  options._modules.push(pagesModule, metaModule, componentsModule)
+  options._modules.push(componentsModule, pagesModule, metaModule)
   options._modules.push([importsModule, {
     transform: {
       include: options._layers

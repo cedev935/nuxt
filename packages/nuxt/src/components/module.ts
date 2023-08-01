@@ -1,6 +1,6 @@
 import { statSync } from 'node:fs'
 import { normalize, relative, resolve } from 'pathe'
-import { addPluginTemplate, addTemplate, addVitePlugin, addWebpackPlugin, defineNuxtModule, resolveAlias, updateTemplates } from '@nuxt/kit'
+import { addBuildPlugin, addPluginTemplate, addTemplate, addVitePlugin, addWebpackPlugin, defineNuxtModule, resolveAlias, updateTemplates } from '@nuxt/kit'
 import type { Component, ComponentsDir, ComponentsOptions } from 'nuxt/schema'
 
 import { distDir } from '../dirs'
@@ -11,6 +11,7 @@ import { loaderPlugin } from './loader'
 import { TreeShakeTemplatePlugin } from './tree-shake'
 import { islandsTransform } from './islandsTransform'
 import { createTransformPlugin } from './transform'
+import { ServerOnlyTransformPlugin } from './server-only-transform'
 
 const isPureObjectOrString = (val: any) => (!Array.isArray(val) && typeof val === 'object') || typeof val === 'string'
 const isDirectory = (p: string) => { try { return statSync(p).isDirectory() } catch (_e) { return false } }
@@ -112,6 +113,8 @@ export default defineNuxtModule<ComponentsOptions>({
 
       nuxt.options.build!.transpile!.push(...componentDirs.filter(dir => dir.transpile).map(dir => dir.path))
     })
+
+    addBuildPlugin(ServerOnlyTransformPlugin(nuxt))
 
     // components.d.ts
     addTemplate({ ...componentsTypeTemplate })
