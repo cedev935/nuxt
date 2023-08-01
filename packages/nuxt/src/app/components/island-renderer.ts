@@ -16,10 +16,11 @@ export default defineComponent({
     const component = islandComponents[props.context.name] as ReturnType<typeof defineAsyncComponent>
 
     if (!component) {
-      throw createError({
-        statusCode: 404,
-        statusMessage: `Island component not found: ${JSON.stringify(component)}`
-      })
+      const statusMessage = `Island component not found: ${JSON.stringify(props.context.name)}`
+      if (process.dev) {
+        console.log(statusMessage)
+      }
+      throw createError({ statusCode: 404, statusMessage: statusMessage })
     }
 
     return () => createVNode(component || 'span', { ...props.context.props, 'nuxt-ssr-component-uid': '' })
